@@ -51,7 +51,7 @@ const InputComponents = ({hello}) => {
   );
 };
 const LableComponents = ({ children }) => {
-  return <label for="checkformeforall">{children}</label>;
+  return <label htmlFor="checkformeforall">{children}</label>;
 };
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
