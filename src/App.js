@@ -1,4 +1,4 @@
-import react, { useState , useReducer } from "react";
+import react, { useState, useReducer } from "react";
 
 const ButtonCount = (props) => {
   const [count, setCount] = useState(0);
@@ -25,16 +25,34 @@ const reducer = (state, action) => {
       throw new Error();
   }
 };
-const ComponentsParent = ({children}) => {
-  return <div>{children}</div>
-}
-const InputComponents = () => {
-const [checked, setchecked] = useState(true);
-return <input type="checkbox" checked={checked}></input>
-}
-const LableComponents = ({children}) => {
-return <label for="checkformeforall">{children}</label>
-}
+const ComponentsParent = ({ children }) => {
+  const allChildren = react.Children.map(children, (child) => {
+    const clone = react.cloneElement(child, {
+      hello: "tuanphan",
+    });
+    return clone;
+  });
+   console.log(allChildren);
+  return allChildren;
+};
+const InputComponents = ({hello}) => {
+  const [checked, setchecked] = useState(true);
+  return (
+    <react.Fragment>
+      {hello}
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => {
+          setchecked(e.target.checked);
+        }}
+      ></input>
+    </react.Fragment>
+  );
+};
+const LableComponents = ({ children }) => {
+  return <label for="checkformeforall">{children}</label>;
+};
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const props = {
@@ -48,10 +66,10 @@ function App() {
       <ButtonCount {...props} />
       <ButtonCount {...props} />
       <ButtonCount {...props} />
-      <button onClick={() => dispatch({type: 'increment'})}>UP ME</button>
+      <button onClick={() => dispatch({ type: "increment" })}>UP ME</button>
       <ComponentsParent>
-          <InputComponents/>
-          <LableComponents>Click for me</LableComponents>
+        <InputComponents/>
+        <LableComponents>Click for me</LableComponents>
       </ComponentsParent>
     </react.Fragment>
   );
